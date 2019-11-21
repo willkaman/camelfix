@@ -303,7 +303,7 @@ public class CamelfixSessionPanel extends JPanel implements ActionListener, Prop
 			for (double i = 0; i < repeticiones; i++) {
 				for (String chorizo : lines) {
 					try{
-						messages.add(CamelfixMain.store.getApplication().parseChorizo(session, chorizo));
+						messages.add(CamelfixMain.store.getApplication().loadChorizo(session, chorizo));
 						messagesPanel.updateRowData(messages.toArray());
 					}
 					catch(Exception ex) {

@@ -68,7 +68,8 @@ public class CamelfixApplicationImpl implements CamelfixApplication {
 		store.getCamelfixSessionBySessionID(arg1).addMessageQueue(arg0);
 	}
 
-	public void loadChorizo(CamelfixSession session, String line){
+	public synchronized Message loadChorizo(CamelfixSession session, String line){
+		Message m=null;
 		try {
 			SessionID sessionId=session.getSessison();
 			MessageFactory mf = new MessageFactory();
@@ -76,9 +77,9 @@ public class CamelfixApplicationImpl implements CamelfixApplication {
 			if(dd!=null){
 				//NewOrderSingle nos=new NewOrderSingle();
 				//nos.fromString(line, dd, true);
-				Message m=MessageUtils.parse(mf,dd, line);
+				m=MessageUtils.parse(mf,dd, line);
 				System.out.println("mensaje generado");
-				Session.sendToTarget(m,sessionId);
+				//Session.sendToTarget(m,sessionId);
 			}
 			else{
 				throw new Exception("DataDictionary no definido para la session");
@@ -86,6 +87,7 @@ public class CamelfixApplicationImpl implements CamelfixApplication {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return m;
 	}
 	
 	public synchronized Message parseChorizo(CamelfixSession session, String line) throws Exception{
